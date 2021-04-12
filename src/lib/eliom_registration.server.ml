@@ -1220,6 +1220,8 @@ let get_global_data ~keep_debug =
   in
   (data, global_data_unwrapper)
 
+let transform_global_app_uri = ref (fun x -> x )
+
 module Eliom_appl_reg_make_param
   (Html_content
      : Ocsigen_http_frame.HTTP_CONTENT
@@ -1370,7 +1372,7 @@ module Eliom_appl_reg_make_param
       let a =
         (if defer then [Eliom_content.Html.F.a_defer ()] else [])
         @
-        [Eliom_content.Html.F.a_src uri]
+        [Eliom_content.Html.F.a_src @@ !transform_global_app_uri uri]
       in
       Eliom_content.Html.F.script ~a (Eliom_content.Html.F.txt "") :: rem
     end else
